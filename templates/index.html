@@ -122,7 +122,19 @@
                                 </ul>
                             </div>
                             <div class="header__top__right__auth">
-                                <a href="#"><i class="fa fa-user"></i> Login</a>
+    <button type="button" class="btn-login" onclick="handleLogin()">
+        <i class="fa fa-user"></i> Login
+    </button>
+</div>
+
+<script>
+function handleLogin() {
+    alert("Login button clicked!");
+    // Можно выполнить другой код, например, перенаправить на страницу входа
+    window.location.href = '/login';
+}
+</script>
+
                             </div>
                         </div>
                     </div>
