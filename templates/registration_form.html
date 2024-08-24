@@ -1,0 +1,13 @@
+<html>
+
+    <form method="POST" autocomplete="off">
+        
+        {% csrf_token %}
+        
+        {{ registration_form.as_p }}
+        
+        <input type="submit" value="registration"/>
+        
+    </form>
+
+</html>
