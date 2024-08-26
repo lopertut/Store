@@ -122,9 +122,14 @@
                                 </ul>
                             </div>
                             <div class="header__top__right__auth">
-    <button type="button" class="btn-login" onclick="handleLogin()">
-        <i class="fa fa-user"></i> Login
-    </button>
+                                {% if request.user.is_authenticated %}
+                                    <p>{{ user.username }}</p> 
+                                    <a href="/logout">logout</a>
+                                {% else %}
+                                    <button type="button" class="btn-login" onclick="handleLogin()">
+                                        <i class="fa fa-user"></i> Login
+                                    </button>
+                                {% endif %}
 </div>
 
 <script>
