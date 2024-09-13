@@ -8,6 +8,14 @@ def index(request):
     return render(request, 'index.html')
 
 
+def shopping_cart(request):
+    return render(request, 'shopping_cart.html')
+
+
+def catalog(request):
+    return render(request, 'catalog.html')
+
+
 def login(request):
     form = LoginForm()
 
