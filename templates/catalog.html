@@ -1,4 +1,8 @@
 {% load static %}
+<form method="post">
+    {% csrf_token %}
+</form>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -6,9 +10,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product Catalog</title>
+    <script src="{% static 'js/CartAdding.js' %}"></script>
+    <script src="{% static 'js/GetCookie.js' %}"></script>
+    <script src="{% static 'js/Auth.js' %}"></script>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <style>
-        /* Общие стили для каталога продуктов */
         .catalog {
             max-width: 1200px;
             margin: 20px auto;
@@ -102,42 +108,34 @@
         <a href="/">Home</a>
         <a href="#">Products</a>
         <a href="#">About Us</a>
-        <a href="#">Contact</a>
-        <div class="login">
-            <button type="button" onclick="handleLogin()">Login</button>
-        </div>
+        <a href="#">Contact</a>        
+        {% if request.user.is_authenticated %}
+            <a href="shopping_cart">{{ user.username }}</a> 
+            <a href="/logout">logout</a>
+        {% else  %}
+            <div class="login">
+                <button type="button" onclick="HandleLogin()">Login</button>
+            </div>
+        {% endif %}
     </nav>
-
     <div class="catalog">
         <h1>Product Catalog</h1>
         <div class="product-grid">
-            <div class="product-card">
-                <img src="{% static 'images/product1.jpg' %}" alt="Product 1">
-                <div class="details">
-                    <h3>Fresh Vegetables</h3>
-                    <p>High quality and fresh vegetables for your kitchen.</p>
-                    <div class="price">$500</div>
-                    <button>Add to Cart</button>
+            {% for product in products %}
+            	<div class="product-card">
+                    <h2>{{ product.name }}</h2>
+                    <div class="details">
+                        <p>{{ product.description }}</p>
+                        <div class="price">${{ product.price }}</div>
+                        {% if product.stock > 0 %}
+                            <button type="button" onclick="HandleAdding({{ product.id }}, 1)">Add to Cart</button>
+                         {% else %}
+                            <button>Sold out</button>
+                        {% endif %}
+                    </div>
                 </div>
-            </div>
-            <div class="product-card">
-                <img src="{% static 'images/product2.jpg' %}" alt="Product 2">
-                <div class="details">
-                    <h3>Dairy Products</h3>
-                    <p>Premium dairy products to enhance your meals.</p>
-                    <div class="price">$300</div>
-                    <button>Add to Cart</button>
-                </div>
-            </div>
-            <!-- Добавьте больше продуктов по аналогии -->
+            {% endfor %}
         </div>
     </div>
-
-    <script>
-        function handleLogin() {
-            // Логика для обработки логина
-            window.location.href = "/login";
-        }
-    </script>
 </body>
 </html>

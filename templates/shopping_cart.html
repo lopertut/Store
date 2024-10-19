@@ -7,9 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shopping Cart</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <script src="{% static 'js/auth.js' %}"></script>
+    <script src="{% static 'js/Auth.js' %}"></script>
     <style>
-        /* Общие стили для корзины */
         .cart {
             max-width: 800px;
             margin: 20px auto;
@@ -102,7 +101,7 @@
             font-size: 1em;
         }
         nav .login {
-            margin-left: auto; /* Перемещает блок с кнопкой на край навигационной панели */
+            margin-left: auto;
         }
         nav .login button {
             padding: 10px 10px;
@@ -124,9 +123,14 @@
         <a href="/catalog">Products</a>
         <a href="#">About Us</a>
         <a href="#">Contact</a>
-        <div class="login">
-            <button type="button" onclick="HandleLogin()">Login</button>
-        </div>
+        {% if request.user.is_authenticated %}
+            <a href="shopping_cart">{{ user.username }}</a> 
+            <a href="/logout">logout</a>
+        {% else  %}
+            <div class="login">
+                <button type="button" onclick="HandleLogin()">Login</button>
+            </div>
+        {% endif %}
     </nav>
 
     <div class="cart">

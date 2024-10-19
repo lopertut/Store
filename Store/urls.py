@@ -26,5 +26,6 @@ urlpatterns = [
     path('registration', views.register, name='registration'),
     path('logout', views.logout, name='logout'),
     path('shopping_cart', views.shopping_cart, name='shopping_cart'),
-    path('catalog', views.catalog, name='catalog')
+    path('catalog', views.catalog, name='catalog'),
+    path('add_to_cart_ajax', views.add_to_cart_ajax, name='add_to_cart_ajax'),
 ]
