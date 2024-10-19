@@ -10,8 +10,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product Catalog</title>
-    <script src="{% static 'js/CartAdding.js' %}"></script>
+    <script>const addToCartUrl = "{% url 'add_to_cart_ajax' %}"</script>
     <script src="{% static 'js/GetCookie.js' %}"></script>
+    <script src="{% static 'js/CartAdding.js' %}"></script>
     <script src="{% static 'js/Auth.js' %}"></script>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <style>

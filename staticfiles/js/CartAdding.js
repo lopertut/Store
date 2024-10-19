@@ -1,12 +1,12 @@
 function HandleAdding(product_id, quantity) {
-    const csrf_token = getCookie('csrf_token');
-    console.log("test")
+    const csrftoken = getCookie('csrftoken');
+    console.log("CSRF Token: ", csrftoken);
 
-    fetch("{% url 'add_to_cart_ajax' %}", {
+    fetch(addToCartUrl, {
         method: 'POST',
         headers: {
             'content-type': 'application/json',
-            'X-CSRFToken': csrf_token
+            'X-CSRFToken': csrftoken
         },
         body: JSON.stringify({
             'product_id': product_id,
@@ -23,3 +23,7 @@ function HandleAdding(product_id, quantity) {
         })
         .catch((error) => console.error('Error:', error));
 }
+
+document.addEventListener("DOMContentLoaded", function() {
+    console.log('Document loaded');
+})
