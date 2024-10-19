@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 import json
@@ -13,13 +14,20 @@ def index(request):
 
 
 @require_POST
+@login_required
 def add_to_cart_ajax(request):
     try:
         data = json.loads(request.body)
+        print(f"Received {data}")
+
         product_id = data.get('product_id')
         quantity = data.get('quantity', 1)
+
         product = Products.objects.get(id=product_id)
+        print(f"Product {product}")
+
         cart_item, created = Cart.objects.get_or_create(user=request.user, product=product)
+        print(f"Cart: {cart_item}, created: {created}")
 
         if not created:
             cart_item.quantity += quantity
