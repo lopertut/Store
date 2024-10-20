@@ -5,7 +5,7 @@ import json
 from django.views.decorators.http import require_POST
 from . authorization import CreateUserForm, LoginForm
 from django.contrib.auth.models import auth
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate
 from .models import Products, Cart
 
 
@@ -18,16 +18,10 @@ def index(request):
 def add_to_cart_ajax(request):
     try:
         data = json.loads(request.body)
-        print(f"Received {data}")
-
         product_id = data.get('product_id')
         quantity = data.get('quantity', 1)
-
         product = Products.objects.get(id=product_id)
-        print(f"Product {product}")
-
         cart_item, created = Cart.objects.get_or_create(user=request.user, product=product)
-        print(f"Cart: {cart_item}, created: {created}")
 
         if not created:
             cart_item.quantity += quantity
@@ -38,8 +32,30 @@ def add_to_cart_ajax(request):
         return JsonResponse({'success': False, 'error': str(e)})
 
 
+@require_POST
+@login_required
+def remove_from_cart_ajax(request):
+    try:
+        data = json.loads(request.body)
+        product_id = data.get('product_id')
+        quantity_to_remove = data.get('quantity', 1)
+        cart_item = Cart.objects.get(user=request.user, product_id=product_id)
+
+        if cart_item.quantity > quantity_to_remove:
+            cart_item.quantity -= quantity_to_remove
+            cart_item.save()
+        else:
+            cart_item.delete()
+        return JsonResponse({'success': True})
+
+    except Cart.DoesNotExist:
+        return JsonResponse({'success': False})
+
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)})
+
+
 def shopping_cart(request,):
-    products = Products.objects.all()
     cart_items = Cart.objects.filter(user=request.user)
     total_price = sum(cart_item.product.price * cart_item.quantity for cart_item in cart_items)
 

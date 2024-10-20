@@ -1,7 +1,7 @@
-function HandleAdding(product_id, quantity) {
+function removeFromCart(product_id, quantity) {
     const csrftoken = getCookie('csrftoken');
 
-    fetch(addToCartUrl, {
+    fetch(deleteFromCartUrl, {
         method: 'POST',
         headers: {
             'content-type': 'application/json',
@@ -14,6 +14,7 @@ function HandleAdding(product_id, quantity) {
     })
         .then(response => response.json())
         .then(data => {
+            updateCartDisplay(product_id, -quantity)
             console.log('Response from server:', data);
         })
         .catch((error) => console.error('Error:', error));

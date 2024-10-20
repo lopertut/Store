@@ -7,7 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shopping Cart</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script>const deleteFromCartUrl = "{% url 'remove_from_cart_ajax' %}"</script>
     <script src="{% static 'js/Auth.js' %}"></script>
+    <script src="{% static 'js/GetCookie.js' %}"></script>
+    <script src="{% static 'js/CartDeleting.js' %}"></script>
+    <script src="{% static 'js/updateCartDisplay.js' %}"></script>
     <style>
         .cart {
             max-width: 800px;
@@ -135,24 +139,25 @@
 
     <div class="cart">
         <h1>Your Shopping Cart</h1>
-        {% if cart_items  %}
-            <div class="cart-item">
-                <div class="cart-item-details">
-                    {% for cart_item in cart_items %}
+        {% if cart_items %}
+            {% for cart_item in cart_items %}
+                <div class="cart-item" id="cart-item-{{ cart_item.product.id }}">
+                    <div class="cart-item-details">
                         <h2>{{ cart_item.product.name }}</h2>
-                        <p>Price: {{ cart_item.product.price }}</p>
-                        <P>Quantity: {{ cart_item.quantity }}</P>
-                        <button class="remove-button" onclick="removeItem(this)">Remove</button>
-                    {% endfor %}
+                        <p>Price: <span class="item-price">{{ cart_item.product.price }}</span>$</p>
+                        <p>Quantity: <span class="item-quantity">{{ cart_item.quantity }}</span></p>
+                        <button class="remove-button" onclick="removeFromCart({{ cart_item.product.id }}, 1)">Remove 1 product</button>
+                        <button class="remove-button" onclick="removeFromCart({{ cart_item.product.id }}, {{ cart_item.quantity }})">Remove all products</button>
+                    </div>
                 </div>
-            </div>
-            
+            {% endfor %}
+
             <div class="cart-summary">
-                <h2>Total: {{ total_price }}$</h2>
+                <h2>Total: <span id="total-price">{{ total_price }}</span>$</h2>
                 <a href="/checkout" class="checkout-button">Checkout</a>
             </div>
         {% else %}
-            <p>Your cart is  empty</p>
+            <p>Your cart is empty</p>
         {% endif %}
     </div>
 </body>
