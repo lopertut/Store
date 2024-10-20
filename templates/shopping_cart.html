@@ -135,28 +135,25 @@
 
     <div class="cart">
         <h1>Your Shopping Cart</h1>
-        <div class="cart-item">
-            <img src="{% static 'images/product1.jpg' %}" alt="Product 1">
-            <div class="cart-item-details">
-                <h3>Fresh Vegetables</h3>
-                <p>Price: $500</p>
-                <p>Quantity: 2</p>
+        {% if cart_items  %}
+            <div class="cart-item">
+                <div class="cart-item-details">
+                    {% for cart_item in cart_items %}
+                        <h2>{{ cart_item.product.name }}</h2>
+                        <p>Price: {{ cart_item.product.price }}</p>
+                        <P>Quantity: {{ cart_item.quantity }}</P>
+                        <button class="remove-button" onclick="removeItem(this)">Remove</button>
+                    {% endfor %}
+                </div>
             </div>
-            <button class="remove-button" onclick="removeItem(this)">Remove</button>
-        </div>
-        <div class="cart-item">
-            <img src="{% static 'images/product2.jpg' %}" alt="Product 2">
-            <div class="cart-item-details">
-                <h3>Dairy Products</h3>
-                <p>Price: $300</p>
-                <p>Quantity: 1</p>
+            
+            <div class="cart-summary">
+                <h2>Total: {{ total_price }}$</h2>
+                <a href="/checkout" class="checkout-button">Checkout</a>
             </div>
-            <button class="remove-button" onclick="removeItem(this)">Remove</button>
-        </div>
-        <div class="cart-summary">
-            <h2>Total: $1300</h2>
-            <a href="/checkout" class="checkout-button">Checkout</a>
-        </div>
+        {% else %}
+            <p>Your cart is  empty</p>
+        {% endif %}
     </div>
 </body>
 </html>

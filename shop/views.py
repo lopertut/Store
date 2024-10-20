@@ -39,7 +39,16 @@ def add_to_cart_ajax(request):
 
 
 def shopping_cart(request,):
-    return render(request, 'shopping_cart.html')
+    products = Products.objects.all()
+    cart_items = Cart.objects.filter(user=request.user)
+    total_price = sum(cart_item.product.price * cart_item.quantity for cart_item in cart_items)
+
+    context = {
+        'cart_items': cart_items,
+        'total_price': total_price,
+    }
+
+    return render(request, 'shopping_cart.html', context)
 
 
 def catalog(request):

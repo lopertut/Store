@@ -12,6 +12,6 @@ class ProductsAdmin(admin.ModelAdmin):
 
 @admin.register(Cart)
 class CartAdmin(admin.ModelAdmin):
-    list_display = ('user', 'product', 'quantity', 'added_at')
+    list_display = ('user', 'product', 'quantity')
     list_filter = ('user', 'product')
     search_fields = ('user__username', 'product__name')
