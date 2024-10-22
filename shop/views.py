@@ -10,7 +10,7 @@ from .models import Products, Cart
 
 
 def index(request):
-    return render(request, 'index.html')
+    return render(request, '../index.html')
 
 
 @require_POST
@@ -19,13 +19,13 @@ def add_to_cart_ajax(request):
     try:
         data = json.loads(request.body)
         product_id = data.get('product_id')
+        product = Products.objects.get(pk=product_id)
         quantity = data.get('quantity', 1)
-        product = Products.objects.get(id=product_id)
         cart_item, created = Cart.objects.get_or_create(user=request.user, product=product)
 
         if not created:
             cart_item.quantity += quantity
-        cart_item.save()
+            cart_item.save()
         return JsonResponse({'success': True})
 
     except Exception as e:
@@ -38,6 +38,7 @@ def remove_from_cart_ajax(request):
     try:
         data = json.loads(request.body)
         product_id = data.get('product_id')
+        product = Products.objects.get(pk=product_id)
         quantity_to_remove = data.get('quantity', 1)
         cart_item = Cart.objects.get(user=request.user, product_id=product_id)
 
