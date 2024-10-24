@@ -38,7 +38,6 @@ def remove_from_cart_ajax(request):
     try:
         data = json.loads(request.body)
         product_id = data.get('product_id')
-        product = Products.objects.get(pk=product_id)
         quantity_to_remove = data.get('quantity', 1)
         cart_item = Cart.objects.get(user=request.user, product_id=product_id)
 
