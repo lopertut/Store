@@ -10,7 +10,7 @@ from .models import Products, Cart
 
 
 def index(request):
-    return render(request, '../index.html')
+    return render(request, '../templates/index.html')
 
 
 @require_POST
