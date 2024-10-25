@@ -17,14 +17,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from shop import views
+from users import views as user_views
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name='index'),
-    path('login', views.login, name='login'),
-    path('registration', views.register, name='registration'),
-    path('logout', views.logout, name='logout'),
+    path('login', user_views.login, name='login'),
+    path('registration', user_views.register, name='registration'),
+    path('logout', user_views.logout, name='logout'),
     path('shopping_cart', views.shopping_cart, name='shopping_cart'),
     path('catalog', views.catalog, name='catalog'),
     path('add_to_cart_ajax', views.add_to_cart_ajax, name='add_to_cart_ajax'),
