@@ -18,7 +18,7 @@ def login(request):
 
             if user is not None:
                 auth.login(request, user)
-                return redirect('shop/index')
+                return redirect('index')
 
     context = {
         'login_form': form
