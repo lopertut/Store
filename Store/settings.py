@@ -39,7 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    "shop.apps.ShopConfig"
+    'shop.apps.ShopConfig',
+    'users.apps.UsersConfig',
+    'cart.apps.CartConfig',
 ]
 
 MIDDLEWARE = [
@@ -65,6 +67,7 @@ TEMPLATES = [
         'DIRS': [
             BASE_DIR / 'templates',
             BASE_DIR / 'users/templates',
+            BASE_DIR / 'cart/templates',
         ],
         'APP_DIRS': True,
         'OPTIONS': {
