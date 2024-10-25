@@ -17,6 +17,5 @@ db.sqlite3
 .idea/
 
 # Ignore migrations compiled files
-shop/migrations/__pycache__/
+*/migrations/__pycache__/
 */migrations/*.pyc
-*/migrations/*.py
