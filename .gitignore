@@ -7,6 +7,9 @@ db.sqlite3
 /static/
 /media/
 
+# Ignore the static CDN folder
+static_cdn/
+
 # Environments
 .env
 .venv/
