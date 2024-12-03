@@ -1,11 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import User
 from catalog.models import Products
+from django.utils.timezone import now
 
 
 class Cart(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    created_date = models.DateTimeField(auto_now_add=True)
+    created_date = models.DateTimeField(default=now)
 
     def __str__(self):
         return f"Cart of {self.user.username} created on {self.created_date}"
