@@ -5,11 +5,20 @@ from catalog.models import Products
 
 class Cart(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    product = models.ForeignKey(Products, on_delete=models.CASCADE)
-    quantity = models.PositiveIntegerField(default=1)
+    created_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.user.username}, {self.product.name}, {self.quantity}"
+        return f"Cart of {self.user.username} created on {self.created_date}"
+
+
+class CartItem(models.Model):
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
+    product = models.ForeignKey(Products, on_delete=models.CASCADE)
+    quantity = models.IntegerField(default=1)
+
+    def __str__(self):
+        return f"{self.quantity} x {self.product.name} in cart {self.cart.id}"
 
     class Meta:
-        unique_together = (('user', 'product'),)
+        unique_together = (('cart', 'product'),)
+
