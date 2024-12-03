@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 import json
 from django.views.decorators.http import require_POST
-from .models import Products, Cart
+from .models import Products, Cart, CartItem
 
 
 @require_POST
@@ -12,9 +12,11 @@ def add_to_cart_ajax(request):
     try:
         data = json.loads(request.body)
         product_id = data.get('product_id')
-        product = Products.objects.get(pk=product_id)
         quantity = data.get('quantity', 1)
-        cart_item, created = Cart.objects.get_or_create(user=request.user, product=product)
+
+        product = Products.objects.get(pk=product_id)
+        cart, created = Cart.objects.get_or_create(user=request.user)
+        cart_item, created = CartItem.objects.get_or_create(cart_id=cart.id, product=product)
 
         if not created:
             cart_item.quantity += quantity
@@ -32,7 +34,9 @@ def remove_from_cart_ajax(request):
         data = json.loads(request.body)
         product_id = data.get('product_id')
         quantity_to_remove = data.get('quantity', 1)
-        cart_item = Cart.objects.get(user=request.user, product_id=product_id)
+
+        cart = Cart.objects.get(user=request.user)
+        cart_item = CartItem.objects.get(cart_id=cart.id, product_id=product_id)
 
         if cart_item.quantity > quantity_to_remove:
             cart_item.quantity -= quantity_to_remove
@@ -49,7 +53,7 @@ def remove_from_cart_ajax(request):
 
 
 def shopping_cart(request,):
-    cart_items = Cart.objects.filter(user=request.user)
+    cart_items = CartItem.objects.filter(cart__user=request.user)
     total_price = sum(cart_item.product.price * cart_item.quantity for cart_item in cart_items)
 
     context = {
