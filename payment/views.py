@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.conf import settings
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 import stripe
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
@@ -28,3 +28,15 @@ def create_checkout_session(request):
         return JsonResponse({'session_id': checkout_session.id})
     except Exception as e:
         return JsonResponse({'error': str(e)})
+
+
+def payment_success(request):
+    if 'success' in request.GET:
+        return HttpResponse('Payment succeeded')
+    return HttpResponse('Payment failed')
+
+
+def payment_cancel(request):
+    if 'canceled' in request.GET:
+        return HttpResponse('Payment canceled')
+    return HttpResponse('Payment failed')
