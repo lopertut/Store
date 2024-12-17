@@ -20,6 +20,7 @@ from shop import views
 from users import views as user_views
 from cart import views as cart_views
 from catalog import views as catalog_views
+from payment import views as payment_views
 
 
 urlpatterns = [
@@ -32,4 +33,5 @@ urlpatterns = [
     path('catalog', catalog_views.catalog, name='catalog'),
     path('add_to_cart_ajax', cart_views.add_to_cart_ajax, name='add_to_cart_ajax'),
     path('remove_from_cart_ajax', cart_views.remove_from_cart_ajax, name='remove_from_cart_ajax'),
+    path('payment', payment_views.checkout_page, name='payment'),
 ]

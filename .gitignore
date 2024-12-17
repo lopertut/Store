@@ -21,4 +21,4 @@ static_cdn/
 
 # Ignore migrations compiled files
 **/migrations/__pycache__/
-**/migrations/*.pyc
+**/migrations/*.py
