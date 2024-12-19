@@ -12,18 +12,18 @@ def checkout_page(request):
 
 def create_checkout_session(request):
     try:
-        checkout_session = stripe.create.checkout.Session.create(
+        checkout_session = stripe.checkout.Session.create(
             payment_method_types=['card'],
             line_items=[{'price_data': {
                 'currency': 'eur',
                 'product_data': {'name': 't-shirt', },
-                'unit_amount': 1,
+                'unit_amount': 100,
             },
                 'quantity': 1,
             }],
             mode='payment',
-            success_url=request.build_absolute_uri('/') + '?success=true',
-            cancel_url=request.build_absolute_uri('/') + '?success=true',
+            success_url=request.build_absolute_uri('/') + '?success=success',
+            cancel_url=request.build_absolute_uri('/') + '?success=canceled',
         )
         return JsonResponse({'session_id': checkout_session.id})
     except Exception as e:

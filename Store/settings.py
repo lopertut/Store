@@ -22,8 +22,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 env = environ.Env()
 environ.Env.read_env()
 
-# Initialise stripe api keys
-stripe.api_key = env('STRIPE_SECRET_KEY')
+# Stripe API keys
+STRIPE_SECRET_KEY = env('STRIPE_SECRET_KEY', default='')
+stripe.api_key = STRIPE_SECRET_KEY
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
