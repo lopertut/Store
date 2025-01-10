@@ -34,4 +34,5 @@ urlpatterns = [
     path('add_to_cart_ajax', cart_views.add_to_cart_ajax, name='add_to_cart_ajax'),
     path('remove_from_cart_ajax', cart_views.remove_from_cart_ajax, name='remove_from_cart_ajax'),
     path('payment', payment_views.checkout_page, name='payment'),
+    path('create-checkout-session/', payment_views.create_checkout_session, name='create_checkout_session'),
 ]
